@@ -62,7 +62,7 @@ func main() {
 
 ### Theory
 
-_ | _ |
+| <div style="width:390px">Figure</div> | Description                           |
 --- | --- | 
 ![image](/images/Diagram_1.gif) | Figure 1 demonstrates a typical case of a severely concave polygon with 14 sides. The red dot is a point which needs to be tested, to determine if it lies inside the polygon. The solution is to compare each side of the polygon to the Y (vertical) coordinate of the test point, and compile a list of nodes, where each node is a point where one side crosses the Y threshold of the test point. In this example, eight sides of the polygon cross the Y threshold, while the other six sides do not. Then, if there are an odd number of nodes on each side of the test point, then it is inside the polygon; if there are an even number of nodes on each side of the test point, then it is outside the polygon. In our example, there are five nodes to the left of the test point, and three nodes to the right. Since five and three are odd numbers, our test point is inside the polygon.(Note: This algorithm does not care whether the polygon is traced in clockwise or counterclockwise fashion.) 
 ![image](/images/Diagram_2.gif) | Figure 2 shows what happens if the polygon crosses itself. In this example, a ten-sided polygon has lines which cross each other. The effect is much like “exclusive or,” or XOR as it is known to assembly-language programmers. The portions of the polygon which overlap cancel each other out. So, the test point is outside the polygon, as indicated by the even number of nodes (two and two) on either side of it.
