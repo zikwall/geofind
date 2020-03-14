@@ -56,13 +56,15 @@ func main() {
 					break
 				}
 			}
-		} else {
-			finder := &geofind.Polygon{Coordinates: feature.GetSinglePolygon(), Itterations: 0}
-			found = finder.In(point)
 
-			if found == true {
-				in = feature.Properties
-			}
+			continue
+		}
+
+		finder := &geofind.Polygon{Coordinates: feature.GetSinglePolygon(), Itterations: 0}
+		found = finder.In(point)
+
+		if found == true {
+			in = feature.Properties
 		}
 	}
 
@@ -71,6 +73,7 @@ func main() {
 	fmt.Println(in)
 	fmt.Println(time.Since(start).Seconds())
 }
+
 
 ```
 
