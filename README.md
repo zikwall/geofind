@@ -17,9 +17,12 @@ import (
 	"fmt"
 	"github.com/zikwall/geofind"
 	"io/ioutil"
+	"time"
 )
 
 func main() {
+	start := time.Now()
+
 	countryJson, err := ioutil.ReadFile("example/data/countries/RU.json")
 	if err != nil {
 		panic(err)
@@ -32,30 +35,41 @@ func main() {
 		panic(err)
 	}
 
+	point := geofind.Point{53.671362646, 82.18341123}
 	found := false
 	in := geofind.Properties{}
 
 	// Loop all features of country
 	for _, feature := range countryPolygons.Features {
+		if found == true {
+			break
+		}
+
 		// read method comment for help
 		if feature.IsMultiPolygonal() {
 			for _, polygon := range feature.GetAllPolygons() {
-				finder := &geofind.Polygon{polygon, 0}
-				found = finder.In(geofind.Point{53.671362646, 82.18341123})
-				in = feature.Properties
-				break
+				finder := &geofind.Polygon{Coordinates: polygon, Itterations: 0}
+				found = finder.In(point)
 
+				if found == true {
+					in = feature.Properties
+					break
+				}
 			}
 		} else {
-			finder := &geofind.Polygon{feature.GetSinglePolygon(), 0}
-			found = finder.In(geofind.Point{53.671362646, 82.18341123})
-			in = feature.Properties
-			break
+			finder := &geofind.Polygon{Coordinates: feature.GetSinglePolygon(), Itterations: 0}
+			found = finder.In(point)
+
+			if found == true {
+				in = feature.Properties
+			}
 		}
 	}
 
+
 	fmt.Println(found)
 	fmt.Println(in)
+	fmt.Println(time.Since(start).Seconds())
 }
 
 ```
